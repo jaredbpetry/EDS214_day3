@@ -1,0 +1,55 @@
+---
+title: "Practice retrieving data from an API"
+author: "JP"
+date: "2022-08-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+attach libraries 
+```{r}
+library(tidyverse) 
+library(dataRetrieval)
+```
+
+practice a tiny bit with their example: 
+```{r}
+# Choptank River near Greensboro, MD
+siteNumber <- "01491000" 
+ChoptankInfo <- readNWISsite(siteNumber)
+parameterCd <- "00060"
+
+#Raw daily data:
+rawDailyData <- readNWISdv(siteNumber,parameterCd,
+                      "1980-01-01","2010-01-01")
+
+# Sample data Nitrate:
+parameterCd <- "00618"
+qwData <- readNWISqw(siteNumber,parameterCd,
+                      "1980-01-01","2010-01-01")
+
+pCode <- readNWISpCode(parameterCd)
+```
+
+Now try replacingthis stuff with the ventura river information
+```{r}
+site_number <- "11118500"
+ventura_info <- readNWISsite(site_number) 
+parameter <- "00060"
+
+#Raw daily data:
+raw_ventura_data <- readNWISdv(site_number,parameter,
+                      "2019-10-01","2020-10-05").  #seems like this is the important thing that we need
+
+ventu_code <- readNWISpCode(parameter)
+```
+
+Now you can graph the discharge (y) and time (x) 
+```{r}
+ggplot(data = raw_ventura_data, aes(x = Date, y = X_00060_00003)) +
+  geom_line()
+```
+
