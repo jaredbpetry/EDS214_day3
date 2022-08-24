@@ -13,7 +13,10 @@ attach libraries
 ```{r}
 library(tidyverse) 
 library(dataRetrieval)
+library(here)
 ```
+
+# Task 1: stream flow data
 
 practice a tiny bit with their example: 
 ```{r}
@@ -51,5 +54,34 @@ Now you can graph the discharge (y) and time (x)
 ```{r}
 ggplot(data = raw_ventura_data, aes(x = Date, y = X_00060_00003)) +
   geom_line()
+```
+
+# Task 2 Alaska demographics 
+
+using the package metajam to download and read in the data 
+two step process so you can cache updated data (weird format)
+```{r}
+# set inputs
+data_obj <- "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3A7fc6f6db-c5ea-426a-a743-1f2edafb43b8"
+path <- "~/EDS214/EDS214_day3"
+# download data and metadata
+library(metajam)
+download_d1_data(data_obj, path)
+```
+
+R won't let you run the meta data download more than once so start a new chunk 
+```{r}
+my_data <- read_d1_files("~/EDS214/EDS214_day3/doi_10.5063_F1CJ8BPH__household_language__csv")
+```
+
+Extract the dataset
+```{r}
+dataframe <- my_data$data
+```
+
+Write a piece of code that will compute the percentage of Alaskan household speaking only English for the year 2009 to 2015 and plot it on a graph
+
+```{r}
+#see the key in the website repository on github: brunj7/EDS... name of website
 ```
 
